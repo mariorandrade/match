@@ -141,7 +141,6 @@
                 }
             }
 
-
         });
 
         var images = [
@@ -195,6 +194,40 @@
              * if matches array.length == combinations.length than the user as matched all items
              * run finish function
              * */
+
+            for(var a= 0; a<combinations.length; a++ )
+            {
+
+                for(var b = 0; b<combinations[a].length; b++ )
+                {
+
+                    for(var d = 0; d < selected.length; d++ )
+                    {
+
+                        if( combinations[a][b] == selected[d] && combinations[a][b+1] == selected[d+1] ) {
+                            matches.push(selected);
+                            console.log('match');
+                        }
+
+                        else {
+                            console.log('no match');
+                            setTimeout(function() {
+                                hideCard($('.active'));
+                            },1000);
+
+
+                        }
+                    }
+
+                }
+
+
+            }
+
+            setTimeout(function() {
+                hideCard($('.active'));
+                selected.length =0;
+            },1500);
 
         }
 
