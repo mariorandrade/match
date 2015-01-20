@@ -1,21 +1,90 @@
-body {
-    background:#e2e8ea;
+/*
+MATCH THE CARDS
+You may adapt and learn from the elements of this CSS to use in your own projects.
+
+Version:    1.0 - 2015
+author:     twitter.com/mariorandrade
+website:    twitter.com/mariorandrade
+
+=RESET
+-------------------------------------------------------------------------*/
+
+html, body, form, fieldset, h1, h2, h3, h4, h5, h6, p, pre, blockquote, ul, ol, dl, address {
     margin:0;
     padding:0;
 }
+ul,li {list-style-type:none;}
+.clear {clear:both;}
+.structural {display:none;}
+.group:after {
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+a, a:active {
+    outline:none;
+}
+.centered, p.centered {
+    text-align:center;
+}
+a.noborder:link, a.noborder:visited {
+    border-bottom:none;
+}
+a.noborder:hover {
+    border-bottom:none;
+    background:transparent;
+}
+img {border:0;}
+.del, del {text-decoration:line-through;}
+p.small, .small {font-size:.85em;}
+
+abbr {
+    border-bottom:1px dotted;
+    cursor: help;
+}
+sup {
+    font-size:50%;
+    line-height:0;
+}
+
+/*-------------------------------------------------------------------------
+=LAYOUT
+-------------------------------------------------------------------------*/
+body {
+    background-color:#e2e8ea;
+}
 
 .canvas {
-    width:100%;
     height:100%;
+    width:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    -webkit-transition: background-color 59s;
+    -moz-transition: background-color 59s;
+    -ms-transition: background-color 59s;
+    -o-transition: background-color 59s;
+    transition: background-color 59s;
 }
 
-.game {
-    width:100%;
-    height:100%;
+.canvas.danger {
+    background:rgba(203,36,2, 0.5);
 }
 
+/*-------------------------------------------------------------------------
+=GAME BOARD
+-------------------------------------------------------------------------*/
 .game-board {
-    display:block;
+    display:none;
+    width:670px;
+    left:0;
+    right:0;
+    margin:auto;
+
     -webkit-perspective: 700px;
     -webkit-perspective-origin: 50% 50%;
     -moz-perspective: 700px;
@@ -26,11 +95,11 @@ body {
     -ms-perspective-origin: 50% 50%;
     perspective: 2000px;
     perspective-origin: 50% 50%;
-    width:670px;
-    margin:15px auto;
 }
 
+/* @group card */
 .card {
+    display:none;
     position:relative;
     float:left;
     width:182px;
@@ -42,32 +111,32 @@ body {
     transform-style: preserve-3d;
     -webkit-transition: -webkit-transform 1.0s cubic-bezier(0,.75,.25,1);
     -moz-transition: -moz-transform 1.0s cubic-bezier(0,.75,.25,1);
-    -o-transition: -o-transform 1.0s cubic-bezier(0,.75,.25,1);
     -ms-transition: -ms-transform 1.0s cubic-bezier(0,.75,.25,1);
+    -o-transition: -o-transform 1.0s cubic-bezier(0,.75,.25,1);
     transition: transform 1.0s cubic-bezier(0,.75,.25,1);
     -webkit-box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
     -moz-box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
     box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    transform-style: preserve-3d;
 
 }
 
 .card .face {
     display:table-cell;
-    vertical-align:middle;
-    text-align:center;
-    width:182px;
-    height:260px;
     position:absolute;
     top:0;
     left:0;
+
+    width:182px;
+    height:260px;
+
+    vertical-align:middle;
+    text-align:center;
+    border-radius:5px;
+
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
-    -o-backface-visibility: hidden;
     -ms-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
     backface-visibility: hidden;
     -webkit-transition: all 1.0s cubic-bezier(0,.75,.25,1);
     -moz-transition: all 1.0s cubic-bezier(0,.75,.25,1);
@@ -84,6 +153,129 @@ body {
 
 .card .back {
     background:url('../images/card_back.png') center center no-repeat;
+}
+
+/* @end */
+
+/*-------------------------------------------------------------------------
+=BUTTONS
+-------------------------------------------------------------------------*/
+.actions {
+    display:block;
+    float:left;
+    overflow:hidden;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+
+}
+.action-button {
+    background:#fff;
+    border-radius:50%;
+    color:#fff;
+    margin:50% auto;
+    margin-top:-75px;
+    width:150px;
+    height:150px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.5em;
+    font-style: italic;
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    top: 50%;
+    bottom: 50%;
+    line-height:150px;
+}
+
+.action-button:hover {
+    background-color:rgba(76,80,89, 1);
+    color:#fff;
+}
+
+
+.action-button .text {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+    color:rgba(76,80,89,1);
+}
+
+.action-button:hover .text {
+    color:rgba(255,255,255, 1);
+}
+
+/*-------------------------------------------------------------------------
+=TIMER
+-------------------------------------------------------------------------*/
+
+#timer {
+    display:none;
+    width: 670px;
+    height:200px;
+    margin: auto;
+
+    text-align:center;
+    font-size:5em;
+    line-height:5em;
+
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:10%;
+}
+
+#timer .text {
+    display:inline-block;
+    background-color:rgba(76,80,89, 1);
+    line-height:2.5em;
+    text-align:center;
+    color:#fff;
+
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+
+    width:200px;
+    height:200px;
+    margin:auto;
+    vertical-align: middle;
+    border-radius:50%;
+
+
+}
+
+#timer .loose {
+    width:650px;
+    width:auto;
+    height:auto;
+    border-radius:10px;
+}
+
+/*-------------------------------------------------------------------------
+=MISC
+-------------------------------------------------------------------------*/
+
+.transitate {
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.round {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
 }
 
 .show {
