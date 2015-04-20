@@ -2,8 +2,8 @@
 MATCH THE CARDS
 You may adapt and learn from the elements of this CSS to use in your own projects.
 
-Version:    1.0 - 2015
-author:     twitter.com/mariorandrade
+Version:    1.1 - 2015
+author:     Mário Andrade
 website:    twitter.com/mariorandrade
 
 =RESET
@@ -216,8 +216,8 @@ body {
 
 #timer {
     display:none;
-    width: 670px;
-    height:200px;
+    width: 120px;
+    height:120px;
     margin: auto;
 
     text-align:center;
@@ -225,15 +225,12 @@ body {
     line-height:5em;
 
     position:absolute;
-    left:0;
-    right:0;
-    bottom:10%;
+    right:10%;
+    top:10%;
 }
 
 #timer .text {
     display:inline-block;
-    background-color:rgba(76,80,89, 1);
-    line-height:2.5em;
     text-align:center;
     color:#fff;
 
@@ -243,17 +240,16 @@ body {
     right:0;
     bottom:0;
 
-    width:200px;
-    height:200px;
+    width:100%;
+    height:120px;
     margin:auto;
     vertical-align: middle;
-    border-radius:50%;
 
 
 }
 
 #timer .loose {
-    width:650px;
+    width:120px;
     width:auto;
     height:auto;
     border-radius:10px;

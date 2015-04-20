@@ -6,18 +6,20 @@
 *
 * **/
 
-var MatchMe = (function ($, _) {
+(function($, _){
 
+    var MatchMe = function ()
+    {
 
-    /*
-    * App defaults
-    * @param selected - array used to store user selected cards
-    * @param combinations - array with matching combinations
-    * @param matched - store matched combinations (combinations[] == selected[] ))
-    * @param cars - card deck for the game
-    * */
+        /*
+         * App defaults
+         * @param selected - array used to store user selected cards
+         * @param combinations - array with matching combinations
+         * @param matched - store matched combinations (combinations[] == selected[] ))
+         * @param cars - card deck for the game
+         * */
 
-    var defaults = {
+        var defaults = {
             selected :      [],
             combinations:   [[0, 4], [1,3], [2,5], [4,0], [3,1], [5,2]],
             matched:        [],
@@ -33,252 +35,256 @@ var MatchMe = (function ($, _) {
         };
 
 
-    /*
-     * @function hideCard()
-     * Helper function for hide card effect
-     * @param elem_in - element to hide
-     * */
+        /*
+         * @function hideCard()
+         * Helper function for hide card effect
+         * @param elem_in - element to hide
+         * */
 
-     var hideCard = function ( elem_in )
-    {
-        var front = $(elem_in).find('.front');
-        var back = $(elem_in).find('.back');
+        var hideCard = function ( elem_in )
+        {
+            var front = $(elem_in).find('.front');
+            var back = $(elem_in).find('.back');
 
-        front.removeClass('show').addClass('hide');
-        back.removeClass('hide').addClass('show');
-        $(elem_in).removeClass('active');
+            front.removeClass('show').addClass('hide');
+            back.removeClass('hide').addClass('show');
+            $(elem_in).removeClass('active');
 
-    };
+        };
 
-    /*
-     * @function showCard()
-     * Helper function for show card effect
-     * @param elem_in - element to show
-     * */
+        /*
+         * @function showCard()
+         * Helper function for show card effect
+         * @param elem_in - element to show
+         * */
 
-    var showCard = function ( elem_in ) {
-        var front = $(elem_in).find('.front');
-        var back = $(elem_in).find('.back');
+        var showCard = function ( elem_in ) {
+            var front = $(elem_in).find('.front');
+            var back = $(elem_in).find('.back');
 
-        $(elem_in).addClass('active');
-        back.removeClass('show').addClass('hide');
-        front.removeClass('hide').addClass('show');
-        addToSelected(elem_in);
-    };
-
-
-    /*
-     * @function addToSelected()
-     * Adds clicked item to selected array
-     * @param elem_in - element
-     * */
-
-    var addToSelected = function ( elem_in ) {
-
-        defaults.selected.push( $(elem_in).data('index') );
-        if(defaults.selected.length == 2) {
-            checkIfMatch();
-        }
-    };
-
-    /*
-     * @function checkIfMatch()
-     * Check if both selected cards are a match any combination
-     *
-     * */
-
-    var checkIfMatch = function()
-    {
-
-        if (_.filter(defaults.combinations, defaults.selected).length ) {
-            setMatched();
-        }
-
-        else {
-            setTimeout(function() {
-                hideCard($('.active'));
-                defaults.selected.length = 0;
-            },1000);
-        }
-    };
-
-    /*
-     * @function setMatched()
-     * Store cards in matched array when clicked cards match a combination
-     *
-     * */
-
-    var setMatched = function () {
-
-        defaults.matched.push(defaults.selected);
-        defaults.selected.length =0;
-        $('.active').addClass('matched');
-        $('.active').removeClass('active');
-
-        if(isCompleted()) {
-            stopTimer('You Win');
-
-        }
-
-    };
+            $(elem_in).addClass('active');
+            back.removeClass('show').addClass('hide');
+            front.removeClass('hide').addClass('show');
+            addToSelected(elem_in);
+        };
 
 
-    /*
-     * @function shuffleCards()
-     * Helper function for to shuffle cards
-     *
-     * */
+        /*
+         * @function addToSelected()
+         * Adds clicked item to selected array
+         * @param elem_in - element
+         * */
 
+        var addToSelected = function ( elem_in ) {
 
-    var shuffleCards = function () {
-
-        var deck =_.shuffle(defaults.cards);
-
-        return deck;
-    };
-
-    /*
-     * @function eventHandlers()
-     * Function to store event handlers
-     *
-     * */
-
-    var eventHandlers = function() {
-
-
-        $('body').on('click', '.action-button', function(e) {
-            e.preventDefault();
-            setup();
-        });
-
-        $('body').on('click', '.card', function(e) {
-            e.preventDefault();
-            var isHidden = $(this).find('.front').hasClass('hide');
-
-            if(defaults.selected.length < 2) {
-                if( isHidden ) {
-                    showCard( $(this) );
-                }
+            defaults.selected.push( $(elem_in).data('index') );
+            if(defaults.selected.length == 2) {
+                checkIfMatch();
             }
-        });
+        };
 
-    };
+        /*
+         * @function checkIfMatch()
+         * Check if both selected cards are a match any combination
+         *
+         * */
 
-    /*
-     * @function isCompleted()
-     * Check if user has matched all the cards
-     * matched array is only feeded when a match is correct.
-     * Combinations array has to have all sides of a combination
-     * ex: combinations[[1,2], [2,1]]
-     *
-     * because the user might click on card #2 first
-     * therefore the total number of possible combinations is half of the combinations.length
-     *
-     * */
+        var checkIfMatch = function()
+        {
 
-    var isCompleted = function() {
-        var output = false;
-        if(defaults.matched.length == (defaults.combinations.length/2) )  {
-            output = true;
+            if (_.filter(defaults.combinations, defaults.selected).length ) {
+                setMatched();
+            }
+
+            else {
+                setTimeout(function() {
+                    hideCard($('.active'));
+                    defaults.selected.length = 0;
+                },1000);
+            }
+        };
+
+        /*
+         * @function setMatched()
+         * Store cards in matched array when clicked cards match a combination
+         *
+         * */
+
+        var setMatched = function () {
+
+            defaults.matched.push(defaults.selected);
+            defaults.selected.length =0;
+            $('.active').addClass('matched');
+            $('.active').removeClass('active');
+
+            if(isCompleted()) {
+                stopTimer('You Win');
+
+            }
+
+        };
+
+
+        /*
+         * @function shuffleCards()
+         * Helper function for to shuffle cards
+         *
+         * */
+
+
+        var shuffleCards = function () {
+
+            var deck =_.shuffle(defaults.cards);
+
+            return deck;
+        };
+
+        /*
+         * @function eventHandlers()
+         * Function to store event handlers
+         *
+         * */
+
+        var eventHandlers = function() {
+
+            console.log('event.handlers');
+            $('body').on('click', '.action-button', function(e) {
+                console.log('click');
+                e.preventDefault();
+                setup();
+            });
+
+            $('body').on('click', '.card', function(e) {
+                e.preventDefault();
+                var isHidden = $(this).find('.front').hasClass('hide');
+
+                if(defaults.selected.length < 2) {
+                    if( isHidden ) {
+                        showCard( $(this) );
+                    }
+                }
+            });
+
+        };
+
+        /*
+         * @function isCompleted()
+         * Check if user has matched all the cards
+         * matched array is only feeded when a match is correct.
+         * Combinations array has to have all sides of a combination
+         * ex: combinations[[1,2], [2,1]]
+         *
+         * because the user might click on card #2 first
+         * therefore the total number of possible combinations is half of the combinations.length
+         *
+         * */
+
+        var isCompleted = function() {
+            var output = false;
+            if(defaults.matched.length == (defaults.combinations.length/2) )  {
+                output = true;
+            }
+
+            return output;
+        };
+
+        /*
+         * @function dealCards()
+         *
+         * */
+
+        var dealCards = function() {
+            var deck =  shuffleCards(); //
+            var d = 200;
+            var h = 2500;
+
+            $('.game-board').append( deck ); //present the deck;
+
+            $('.card').each(function() {
+                var front = $(this).find('front');
+                var back = $(this).find('back');
+                $(this).fadeIn(d);
+            });
+
+            setTimeout(function() {
+                hideCard( $('.card') );
+            }, h);
+
+            setTimeout(function() {
+                startTimer();
+            }, 3000 );
+        };
+
+        var startTimer = function() {
+
+            var timeUsed = 0;
+            var container = $("#timer").find(".text");
+            $('.canvas').addClass('danger');
+            $('#timer').fadeIn(function() {
+                defaults.timer = setInterval(function() {
+
+                    if(timeUsed > 59) {
+                        stopTimer('You Loose');
+                        container.addClass('loose');
+                    }
+
+                    else {
+                        container.html(timeUsed);
+                    }
+
+                    timeUsed++;
+                }, 1000);
+            });
+        };
+
+
+
+
+        var stopTimer = function(msg_in) {
+            clearInterval(defaults.timer);
+
+            if(msg_in != undefined ) {
+                $('#timer').find('.text').html(msg_in);
+            }
+
+        };
+
+
+        /*
+         * @function setup()
+         *
+         * */
+
+        var setup = function() {
+
+            $('.actions').fadeOut(500, function() {
+                $('.game-board').fadeIn(200, function() {
+                    dealCards();
+                });
+            });
+
+
+        };
+
+        /*
+         * @function init()
+         *
+         * */
+
+
+        var init = function() {
+            eventHandlers(); //start event handlers for the game;
+
+        };
+
+        return {
+            init: init()
         }
 
-        return output;
-    };
-
-    /*
-     * @function dealCards()
-     *
-     * */
-
-    var dealCards = function() {
-        var deck =  shuffleCards(); //
-        var d = 200;
-        var h = 2500;
-
-        $('.game-board').append( deck ); //present the deck;
-
-        $('.card').each(function() {
-            var front = $(this).find('front');
-            var back = $(this).find('back');
-            $(this).fadeIn(d);
-        });
-
-        setTimeout(function() {
-            hideCard( $('.card') );
-        }, h);
-
-        setTimeout(function() {
-            startTimer();
-        }, 3000 );
-    };
-
-    var startTimer = function() {
-
-        var timeUsed = 0;
-        var container = $("#timer").find(".text");
-        $('.canvas').addClass('danger');
-        $('#timer').fadeIn(function() {
-            defaults.timer = setInterval(function() {
-
-                if(timeUsed > 59) {
-                    stopTimer('You Loose');
-                    container.addClass('loose');
-                }
-
-                else {
-                    container.html(timeUsed);
-                }
-
-                timeUsed++;
-            }, 1000);
-        });
-    };
+    }.call(this);
 
 
 
 
-    var stopTimer = function(msg_in) {
-        clearInterval(defaults.timer);
 
-        if(msg_in != undefined ) {
-            $('#timer').find('.text').html(msg_in);
-        }
-
-    };
-
-
-    /*
-     * @function setup()
-     *
-     * */
-
-    var setup = function() {
-
-        $('.actions').fadeOut(500, function() {
-           $('.game-board').fadeIn(200, function() {
-               dealCards();
-           });
-        });
-
-
-    };
-
-    /*
-     * @function init()
-     *
-     * */
-
-
-   var init = function() {
-
-       eventHandlers(); //start event handlers for the game;
-
-   };
-
-
-    return {
-        init: init()
-    };
-
-
-}($ , _)); //requires jQuery ($) and underscorejs (_)
+} ($ , _)); //requires jQuery ($) and underscorejs (_)
